@@ -23,6 +23,7 @@ class ProductController extends Controller
         $sorts = [
             '新着順' => 'created_at desc',
             '価格が安い順' => 'price asc',
+            '評価が高い順' => 'reviews_avg_score desc',
         ];
 
         $sort_query = [];
@@ -33,6 +34,9 @@ class ProductController extends Controller
             $sort_query[$slices[0]] = $slices[1];
             $sorted = $request->input('select_sort');
         }
+
+        //レビューの平均評価を取得
+        $query = Product::withAvg('reviews', 'score');
 
         //値を受け取った場合
         if ($request->category !== null) {
@@ -62,10 +66,24 @@ class ProductController extends Controller
             $major_category = null;
         }
 
+        // ソートの適用
+        if (isset($sort_query['created_at'])) {
+            $query->orderBy('created_at', $sort_query['created_at']);
+        } elseif (isset($sort_query['price'])) {
+            $query->orderBy('price', $sort_query['price']);
+        } elseif (isset($sort_query['reviews_avg_score'])) {
+            $query->orderBy('reviews_avg_score', 'desc');
+        } else {
+            $query->orderBy('created_at', 'desc');
+        }
+
+        $products = $query->paginate(12);
+
         //全てのカテゴリーを取得
         $categories = Category::all();
         //親カテゴリーをすべて取得
         $major_categories = MajorCategory::all();
+
 
         //第一引数には表示させるビューのファイルを指定、第二引数にはコントローラからビューに渡す変数を指定
         return view('products.index', compact('products', 'category', 'major_category', 'categories', 'major_categories',  'total_count', 'keyword', 'sorts', 'sorted'));
@@ -119,6 +137,9 @@ class ProductController extends Controller
     {
         //商品についての全てのレビューを取得 ページネーションで表示するよう設定（5つずつ）
         $reviews = $product->reviews()->paginate(5);
+
+        // 平均評価を取得（Eager Loading を使用）
+        $product->loadAvg('reviews', 'score');
  
         //取得したレビューをcompact関数でビューへと渡している
         return view('products.show', compact('product', 'reviews'));

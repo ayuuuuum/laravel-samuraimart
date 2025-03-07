@@ -39,12 +39,12 @@ class CheckoutController extends Controller
         //送料がある場合
         if($has_carriage_cost) {
             //合計金額＋送料800円（.envで設定）
-            /*$total += env('CARRIAGE');
+            $total += env('CARRIAGE');
             //$carriage_costに800円を設定
-            $carriage_cost = env('CARRIAGE');*/
+            $carriage_cost = env('CARRIAGE');
 
-            $total += 800;
-            $carriage_cost = 800;
+            /*$total += 800;
+            $carriage_cost = 800;*/
         }
 
         return view('checkout.index', compact('cart', 'total', 'carriage_cost'));

@@ -34,6 +34,12 @@ class Product extends Model
         return $this->hasMany(Review::class);
     }
 
+    public function averageRating()
+    {
+        //レビュー(★5段階評価)の平均評価を計算するメソッド
+        return $this->reviews()->avg('rating') ?? 0; // NULLの場合は0を返す
+    }
+
     public function favorited_users() {
 
         //withTimestamps()メソッドをつなげることで、中間テーブルの場合もcreated_atカラムやupdated_atカラムの値が自動的に更新されるようになる

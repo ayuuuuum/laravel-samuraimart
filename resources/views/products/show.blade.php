@@ -26,6 +26,17 @@
                         <h1>
                             {{$product->name}}
                         </h1>
+                        <span>
+                            @for ($i = 1; $i <= 5; $i++)
+                                @if ($i <= round($product->reviews_avg_score))
+                                    ★
+                                @else
+                                    ☆
+                                @endif
+                            @endfor
+                            ({{ number_format($product->reviews_avg_score ?? 0, 1) }})
+                        </span>
+                        <br>
                         <p>
                             {{$product->description}}
                         </p>
@@ -91,6 +102,17 @@
 
             <div class="row">
                 <h2 class="float-left">カスタマーレビュー</h2>
+                <span>
+                    @for ($i = 1; $i <= 5; $i++)
+                        @if ($i <= round($product->reviews_avg_score ?? 0))
+                            ★
+                        @else
+                            ☆
+                        @endif
+                    @endfor
+                    ({{ number_format($product->reviews_avg_score ?? 0, 1) }})
+                </span>
+                <br>
             </div>
 
             <div class="row mb-3">

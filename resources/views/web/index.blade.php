@@ -35,6 +35,17 @@
                                     <p class="samuraimart-product-label mt-2">
                                         <a href="{{ route('products.show', $recommend_product) }}" class="link-dark">{{ $recommend_product->name }}</a>
                                         <br>
+                                        <span>
+                                            @for ($i = 1; $i <= 5; $i++)
+                                                @if ($i <= round($recommend_product->reviews_avg_score))
+                                                    ★
+                                                @else
+                                                    ☆
+                                                @endif
+                                            @endfor
+                                            ({{ number_format($recommend_product->reviews_avg_score, 1) }})
+                                        </span>
+                                        <br>
                                         <label>￥{{ number_format($recommend_product->price) }}</label>
                                     </p>
                                 </div>
@@ -61,6 +72,17 @@
                                     <p class="samuraimart-product-label mt-2">
                                         <a href="{{ route('products.show', $recently_product) }}" class="link-dark">{{ $recently_product->name }}</a>
                                         <br>
+                                        <span>
+                                            @for ($i = 1; $i <= 5; $i++)
+                                                @if ($i <= round($recommend_product->reviews_avg_score))
+                                                    ★
+                                                @else
+                                                    ☆
+                                                @endif
+                                            @endfor
+                                            ({{ number_format($recommend_product->reviews_avg_score, 1) }})
+                                        </span>
+                                        <br>
                                         <label>￥{{ number_format($recently_product->price) }}</label>
                                     </p>
                                 </div>
@@ -86,6 +108,17 @@
                                 <div class="col-12">
                                     <p class="samuraimart-product-label mt-2">
                                         <a href="{{ route('products.show', $featured_product) }}" class="link-dark">{{ $featured_product->name }}</a>
+                                        <br>
+                                        <span>
+                                            @for ($i = 1; $i <= 5; $i++)
+                                                @if ($i <= round($recommend_product->reviews_avg_score))
+                                                    ★
+                                                @else
+                                                    ☆
+                                                @endif
+                                            @endfor
+                                            ({{ number_format($recommend_product->reviews_avg_score, 1) }})
+                                        </span>
                                         <br>
                                         <label>￥{{ number_format($featured_product->price) }}</label>
                                     </p>
